@@ -1,0 +1,86 @@
+Versionsverwaltung
+==================
+ 
+.. sidebar:: Dateien
+
+	:download:`gitphpug <figure/softwareentwicklung/gitphpug.pdf>`
+	
+	:download:`vcswebmontag <figure/softwareentwicklung/vcswebmontag.pdf>`
+	
+	:download:`Artikel <figure/softwareentwicklung/Versionsverwaltung_Ausarbeitung.pdf>`
+
+- Sicherung von Zwischenschritten / Backup
+- Dokumentation des Herstellungsprozesses
+- Einfaches Experimentieren durch Branching
+- Mehr Metainformationen: Wann wurde was warum geändert?
+- Ermöglicht effektive Zusammenarbeit ohne Datenverlust 
+  (A und B schreiben nacheinander auf eine Datei in einem Shared Medium 
+  ==> letzter Schreibvorgang gewinnt)
+  
+  
+Szenarien
+----------
+
+
+Zentrale Versionsverwaltung
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. image:: figure/softwareentwicklung/version_zentral_1.jpg
+
+- Ein zentraler Server (genauer: ein zentrales Repository)
+- Client speichert keine Versionierungsdaten
+- Rein zentralistisches Konzept
+- Clients haben Schreib- und Leseberechtigung auf dem Repository
+  
+
+
+
+Dezentrale Anarchie
+~~~~~~~~~~~~~~~~~~~
+
+.. image:: figure/softwareentwicklung/dezentral_anarchie.jpg
+
+- Jeder Client pflegt eigenes Repository
+- Clients haben nur auf eigenes Repo Schreibzugriff
+- Austausch von Daten über Pull-Requests (bei öffentlichen Repositories)
+  Patchsets (bei privaten Repositories)
+- Absolut dezentrale Entwicklung
+
+
+Dezentrale -- Gemeinsamer Maintree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+.. image:: figure/softwareentwicklung/dezentral_gemeinsam.jpg
+
+- Gemeinsames Repository für die Hauptentwicklung
+- Üblicherweise von wenigen Personen betreut, die Code einpflegen ("Integration 
+Manager") 
+- nur diese haben Schreibzugriff auf das gemeinsame Repository
+- Abgesegneter Code wird veröffentlicht
+- Clients ziehen Updates aus dem Gemeinsamen Repository
+
+
+Dezentral - Gestaffelt
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: figure/softwareentwicklung/dezentral_gestaffelt.jpg
+
+
+- Hierarchie aus „Integration Managern“ pflegt jeweils einen Teil 
+- Verteilung der Verantwortlichkeiten und Lasten auf mehrere Schultern
+- Beispielsweise beim Linux Kernel eingesetzt
+
+
+
+
+Dezentrale - Gatekeeper
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: figure/softwareentwicklung/dezentral_gatekeeper.jpg
+
+- Gemeinsames Repository für die Hauptentwicklung
+- Automatischer Test von Code auf Korrektheit (z.B. durch Test Framework oder 
+  Ablehnung von Code mit @ToDo-Tags
+  
+  

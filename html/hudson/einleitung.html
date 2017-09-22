@@ -1,0 +1,156 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Einleitung &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="einleitung">
+<h1>Einleitung<a class="headerlink" href="#einleitung" title="Link zu dieser Überschrift">¶</a></h1>
+<p>Dieses Tutorial soll einen Einstieg in die Aspekte</p>
+<ul class="simple">
+<li>Versionsverwaltung</li>
+<li>Unit Testing</li>
+<li>Metriken</li>
+<li>Refactoring</li>
+<li>Automatisierte Build</li>
+<li>Continuous Integration</li>
+</ul>
+<p>bieten.</p>
+<p>Es sind mittlerweile Grundelemente einer jeden (agilen) Softwareentwicklung und füllen den Begriff mit Inhalt.</p>
+<ol class="arabic simple">
+<li>Versionsverwaltung</li>
+</ol>
+<p>Nicht nur in Teams und verteilten Standorten ist eine Verwaltung des Quellcodes von außerordentlicher Bedeutung. Das Nachvollziehen von Änderungen, das eventuell notwendige Rückgängigmachen von Änderungen gehört heute zu jedem ordentlichen Programmierer dazu.
+In unserem Beispiel werden wir mit Hilfe der zentralen Softwareverwaltung Subversion die grundlegenden Prinzipien kennenlernen. Dazu gehört z.B. auch</p>
+<ul class="simple">
+<li>die Absprache, an welchen Quellcode-Dateien ein Entwickler gerade arbeitet</li>
+<li>das Vermeiden von Konflikten</li>
+</ul>
+<ol class="arabic simple">
+<li>Unit Testing</li>
+</ol>
+<p>TDD (Test Driven Development) ist eine Vorgehensweise, die die Entwicklung des Programmcodes eng an das Testen des Quellcodes bindet. In einer extremen Sichtweise wird sogar der Test vor dem Schreiben des Quellcodes gelegt. Der Test definiert somit die Spezifikation des Pflichtenheftes.</p>
+<p>Unit Testing hat zum Ziel, den Quellcode <strong>ständig, wiederholbar und automatisiert</strong> zu testen.
+Jede Änderung im bestehenden Quellcode kann sofort durch einen Test validiert werden; der Entwickler enthält somit ein sofortiges Feedback über seine Änderungen.</p>
+<p>Das Tutorial verwendet als Unit-Testing-Tool das Open-Source-Programm NUnit; die Vorgehensweise kann aber leicht an andere <em>Unit</em>-Testing-Frameworks angepasst werden.</p>
+<ol class="arabic simple">
+<li>Metriken</li>
+</ol>
+<p>Metriken messen bestimmte Eigenschaften von Quellcode, z.B. Lines of Code, Zyklomatische Komplexität, Vererbungstiefe, Kopplungsgrad von Objekten,…</p>
+<p>Mit diesen Werten sind anschließend bestimmte Aussagen über die Qualität des Codes möglich. Schlechter Code kann anschließend refaktorisiert werden.</p>
+<ol class="arabic simple">
+<li>Refactoring</li>
+</ol>
+<p>Bestehender Quellcode ist häufig noch nicht „optimal“. Dies äußert sich z.B. in</p>
+<ul class="simple">
+<li>zu langen Methoden</li>
+<li>Lagerung des Quellcodes am falschen Ort</li>
+<li>Nicht-Beachten von allgemein anerkannten Programmierprinzipien</li>
+<li>schlechten Metriken</li>
+</ul>
+<p>Refactoring beschreibt Vorgehensweisen, wie man solche „Probleme“ erkennt und behebt.
+Weiterhin muss natürlich sichergestellt sein, dass nach einem Refactoring der Quellcode immer noch die gleichen Testergebnisse zurückliefert.</p>
+<ol class="arabic simple">
+<li>Automatische Builds</li>
+</ol>
+<p>Das Erstellen eines Programms bedeutet häufig mehr Arbeitsschritte als das reine Compilieren des Quellcodes. So müssen evtl.</p>
+<ul class="simple">
+<li>weitere Compiliervorgänge angestoßen werden</li>
+<li>Tests aufgerufen weren</li>
+<li>Datenbanken durch Skripte angepasst werden,</li>
+<li>Ausgabeordner für das Compilat erstellt werden,</li>
+<li>Setup-Programme aufgerufen werden</li>
+<li>API-Dokumentationen aktualisiert werden.</li>
+</ul>
+<p>All diese Dinge könnten auch manuell angestoßen werden. Häufig werden aber diese Aufgaben nicht zeitnah ausgeführt oder vielleicht sogar vergessen.</p>
+<p>Build-Tools können diese Aufgaben automatisieren, indem Sie einmal erstellt werden und dann lediglich aufgerufen werden. Sie dokumentieren damit gleichzeitig den firmeninternen Softwareentwicklungsprozess. In unserem Tutorial verwenden wir die Build-Tool MSBUILD und NAnt.</p>
+<ol class="arabic simple">
+<li>Continuous Integration (CI)</li>
+</ol>
+<p>CI führt die oben genannten Einzelschritte unter einer einheitlichen Oberfläche zusammen und bereitet die Ausgabe der entsprechenden Teilvorgänge in einer optisch ansprechenden Weise auf.</p>
+<p>In unserem Tutorial verwenden wir den Open Source CI Server Jenkins;</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/einleitung.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>

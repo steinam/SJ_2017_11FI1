@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Runde 2 &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="runde-2">
+<h1>Runde 2<a class="headerlink" href="#runde-2" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="automatische-builds">
+<h2>Automatische Builds<a class="headerlink" href="#automatische-builds" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Bisher erfolgt ein neuer Build des Programms durch Drücken der Taste F5 innerhalb von VisualStudio auf dem Entwicklerrechner. Dies ist allerdings kein <strong>definiertes</strong> Vorgehen, da in Abhängigkeit von Betriebssystem, .NET-Plattform und Versionsständen von Fremd-Libraries unterschiedliche Rahmenbedingungen herrschen können.</p>
+<p>Alle Aufgaben, die für einen erfolgreichen Buildvorgang vorzunehmen sind, sind am besten in Skripten zu zentralisieren. Für diese Aufgabe wurden bereits vor mehreren Jahrzehnten eigene Programme entwickelt. Wichtige Vertreter sind ANT, NANT, Maven, …. Microsoft verfügte lange Jahre über eine proprietäre Build-Engine, bis Sie sich vor vielen Jahen entschloss, mit Hilfe von MSBUILD einen von VisualStudio getrennten Build-Mechanismus zu entwickeln, der auch für Aufgaben außerhalb von VisualStudio verwendet werden kann.</p>
+<p>In unserem Beispiel werden wir aufgrund vorhandener Kennnisstände das Tool NANT benutzen, auch wenn sich natürich für ein VisualStudio-Projekt msbuild besser eignen würde. Intern übergibt VisualStudio seine Build-Aufgaben an msbuild.</p>
+</div>
+<div class="section" id="nant">
+<h2>NANT<a class="headerlink" href="#nant" title="Link zu dieser Überschrift">¶</a></h2>
+<p>NANT ist ein OpenSource.Projekt und lehnt sich in seiner Arbeitsweise an das aus der Java-Welt bekannte ANT an.</p>
+<p>Gesteuert wird NANT mit Hilfe eines Konfigurationsfiles <em>default.build</em>, in dem alle Aufgaben definiert werden, die NANT ausführen soll. Die Aufgaben (task) werden dabei mit Hilfe von targets organisiert.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">&quot;Startingpoint&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;build&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;exec</span> <span class="na">program=</span><span class="s">&quot;msbuild.exe&quot;</span>
+      <span class="na">basedir=</span><span class="s">&quot;c:\Windows\Microsoft.NET\Framework64\v4.0.30319\&quot;</span>
+      <span class="na">commandline=</span><span class="s">&quot;Pfad zur Solution\startingpoint.sln&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/target&gt;</span>
+
+
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p>Der Aufruf von <strong>nant build</strong> führt dann zum Ausführen des Buildvorganges.</p>
+<img alt="../_images/nant_11.jpg" src="../_images/nant_11.jpg" />
+</div>
+<div class="section" id="msbuild">
+<h2>MSBUILD<a class="headerlink" href="#msbuild" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Die Arbeit mit msbuild gestaltet sich noch einfacher. Der Buildprozess kann dadurch gestartet werden, dass man dem Konsolenprogramm msbuild.exe den Pfad zur Solution übergibt.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>c:<span class="se">\W</span>indows<span class="se">\M</span>icrosoft.NET<span class="se">\F</span>ramework64<span class="se">\v</span><span class="m">4</span>.0.30319<span class="se">\m</span>sbuild.exe Pfad_zur_Solution.sln
+</pre></div>
+</div>
+</div>
+<div class="section" id="nunit-integration">
+<h2>NUnit-Integration<a class="headerlink" href="#nunit-integration" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Grundsätzlich kann NUnit sowohl in NANT als auch in MSBUILD integriert werden. In unserem Beispiel werden wir die Integration mit Hilfe des NANT-Tools zeigen.</p>
+<p>Eine Konfigurationsdatei von NANT kann verschiedene Tasks besitzen, die auch selbständig voneinander ausgerufen werden können.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">name=</span><span class="s">&quot;Startingpoint&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;build&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;exec</span> <span class="na">program=</span><span class="s">&quot;msbuild.exe&quot;</span>
+              <span class="na">basedir=</span><span class="s">&quot;c:\Windows\Microsoft.NET\Framework64\v4.0.30319\&quot;</span>
+              <span class="na">commandline=</span><span class="s">&quot;C:\temp\fowler\startpoint\startingpoint.sln&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/target&gt;</span>
+        <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&quot;test&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;exec</span> <span class="na">program=</span><span class="s">&quot;c:\Program Files (x86)\NUnit 2.6.3\bin\nunit-console.exe&quot;</span>
+              <span class="na">commandline=</span><span class="s">&quot;C:\temp\fowler\startpoint\bin\Debug\StartingPoint.exe /xml=C:\temp\fowler\startpoint\bin\Debug\result_test.xml&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/target&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p>Der Parameter /xml gibt den Dateinamen an, in der NUnit seine Ausgaben schreiben soll. Diese Datei wird von uns später noch ausgewertet werden.
+Der Aufruf des Test-Targets erfolgt dann wie folgt.</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>Microsoft Windows <span class="o">[</span>Version <span class="m">6</span>.3.9600<span class="o">]</span>
+<span class="o">(</span>c<span class="o">)</span> <span class="m">2013</span> Microsoft Corporation. Alle Rechte vorbehalten.
+
+C:<span class="se">\t</span>emp<span class="se">\f</span>owler<span class="se">\S</span>tartPoint&gt;c:<span class="se">\t</span>emp<span class="se">\n</span>ant<span class="se">\b</span>in<span class="se">\N</span>Ant.exe <span class="nb">test</span>
+NAnt <span class="m">0</span>.92 <span class="o">(</span>Build <span class="m">0</span>.92.4543.0<span class="p">;</span> release<span class="p">;</span> <span class="m">09</span>.06.2012<span class="o">)</span>
+Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2001</span>-2012 Gerry Shaw
+http://nant.sourceforge.net
+
+Buildfile: file:///C:/temp/fowler/StartPoint/default.build
+Target framework: Microsoft .NET Framework <span class="m">4</span>.0
+Target<span class="o">(</span>s<span class="o">)</span> specified: <span class="nb">test</span>
+
+
+test:
+
+     <span class="o">[</span>exec<span class="o">]</span> NUnit-Console version <span class="m">2</span>.6.3.13283
+     <span class="o">[</span>exec<span class="o">]</span> Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2002</span>-2012 Charlie Poole.
+     <span class="o">[</span>exec<span class="o">]</span> Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2002</span>-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.
+     <span class="o">[</span>exec<span class="o">]</span> Copyright <span class="o">(</span>C<span class="o">)</span> <span class="m">2000</span>-2002 Philip Craig.
+     <span class="o">[</span>exec<span class="o">]</span> All Rights Reserved.
+     <span class="o">[</span>exec<span class="o">]</span>
+     <span class="o">[</span>exec<span class="o">]</span> Runtime Environment -
+     <span class="o">[</span>exec<span class="o">]</span>    OS Version: Microsoft Windows NT <span class="m">6</span>.2.9200.0
+     <span class="o">[</span>exec<span class="o">]</span>   CLR Version: <span class="m">2</span>.0.50727.8000 <span class="o">(</span> Net <span class="m">3</span>.5 <span class="o">)</span>
+     <span class="o">[</span>exec<span class="o">]</span>
+     <span class="o">[</span>exec<span class="o">]</span> ProcessModel: Default    DomainUsage: Single
+     <span class="o">[</span>exec<span class="o">]</span> Execution Runtime: net-3.5
+     <span class="o">[</span>exec<span class="o">]</span> ...
+     <span class="o">[</span>exec<span class="o">]</span> Tests run: <span class="m">3</span>, Errors: <span class="m">0</span>, Failures: <span class="m">0</span>, Inconclusive: <span class="m">0</span>, Time: <span class="m">0</span>,21134 <span class="m">9783145239</span> seconds
+     <span class="o">[</span>exec<span class="o">]</span>   Not run: <span class="m">0</span>, Invalid: <span class="m">0</span>, Ignored: <span class="m">0</span>, Skipped: <span class="m">0</span>
+     <span class="o">[</span>exec<span class="o">]</span>
+
+BUILD SUCCEEDED
+
+Total time: <span class="m">3</span>.2 seconds.
+</pre></div>
+</div>
+</div>
+<div class="section" id="metrics-integration">
+<h2>Metrics-Integration<a class="headerlink" href="#metrics-integration" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Installation</p>
+<p>In VStudio 2012 fehlte das Konsolenprogramm metrics.exe. Es muss in das Verzeichnis c:Program Files (x86)Microsoft Visual Studio 11.0Team ToolsStatic Analysis ToolsFxCop kopiert werden</p>
+<p>Der Aufruf erfolgt mit</p>
+<p class="last">metrics /f:metrics.exe /o:C:tempMetricsresult.xml</p>
+</div>
+</div>
+<div class="section" id="was-soll-das">
+<h2>Was soll das ?<a class="headerlink" href="#was-soll-das" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Berechtigterweise muss man sich fragen, warum man all diesen Aufwand treibt, wenn man doch all diese Dinge auch über VisualStudio hätte erreichen können. Die Antwort liegt in Tatsache, dass man heutzutage als Entwickler kein Einzelkämpfer ist. Der Build und die darum liegenden Tätigkeiten müssen zentralisiert und automatisiert werden. Es ist Zeit für den CI Server.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Runde 2</a><ul>
+<li><a class="reference internal" href="#automatische-builds">Automatische Builds</a></li>
+<li><a class="reference internal" href="#nant">NANT</a></li>
+<li><a class="reference internal" href="#msbuild">MSBUILD</a></li>
+<li><a class="reference internal" href="#nunit-integration">NUnit-Integration</a></li>
+<li><a class="reference internal" href="#metrics-integration">Metrics-Integration</a></li>
+<li><a class="reference internal" href="#was-soll-das">Was soll das ?</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/tag2.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>

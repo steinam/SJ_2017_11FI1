@@ -1,0 +1,160 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Continuous Integration &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="continuous-integration">
+<h1>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="einleitung.html">Einleitung</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tag1.html">Runde 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#infrastruktur">Infrastruktur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#das-programm">Das Programm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#entwickeln-unter-einer-versionsverwaltung">Entwickeln unter einer Versionsverwaltung</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#erstellen-von-unit-tests">Erstellen von Unit-Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#ausfuhren-der-tests">Ausführen der Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag1.html#commit-der-anderungen">Commit der Änderungen</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tag2.html">Runde 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#automatische-builds">Automatische Builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#nant">NANT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#msbuild">MSBUILD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#nunit-integration">NUnit-Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#metrics-integration">Metrics-Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag2.html#was-soll-das">Was soll das ?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tag3.html">Runde 3</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tag3.html#ci-server-jenkins">CI Server Jenkins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag3.html#jobs-anlegen">Jobs anlegen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag3.html#jobs-konfigurieren">Jobs Konfigurieren</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag3.html#aufgaben">Aufgaben:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tag4.html">Runde 4</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#refactoring">Refactoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#aufteilen-umfangreicher-methoden">Aufteilen umfangreicher Methoden</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#methoden-herausnehmen">Methoden herausnehmen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#umbenennen">Umbenennen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#methoden-verschieben">Methoden verschieben</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#eliminiere-temp-variablen">Eliminiere Temp-Variablen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#auslagern-von-methoden">Auslagern von Methoden</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#code-verbesserungen">Code-Verbesserungen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#temporare-variablen-ersetzen">Temporäre Variablen ersetzen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#html-statement">HTML-Statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#neue-unit-tests">Neue Unit-Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag4.html#vergleich-vorher-nachher">Vergleich vorher/nachher</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tag5.html">Runde 5</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tag5.html#methoden-herausnehmen">Methoden herausnehmen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag5.html#polymorphie">Polymorphie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag5.html#umbenennen">Umbenennen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tag5.html#methoden-verschieben">Methoden verschieben</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>kfksdkf
+</pre></div>
+</div>
+</div>
+<div class="section" id="suche">
+<h1>Suche<a class="headerlink" href="#suche" title="Link zu dieser Überschrift">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="../search.html"><span class="std std-ref">Suche</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Continuous Integration</a></li>
+<li><a class="reference internal" href="#suche">Suche</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/index.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>

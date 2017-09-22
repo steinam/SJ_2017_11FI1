@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Runde 3 &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="runde-3">
+<h1>Runde 3<a class="headerlink" href="#runde-3" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="ci-server-jenkins">
+<h2>CI Server Jenkins<a class="headerlink" href="#ci-server-jenkins" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Jenkins (<a class="reference external" href="http://jenkins-ci.org">http://jenkins-ci.org</a>) ist ein Fork des CI-Servers Hudson. Es gibt ihn für verschiedene Betriebssysteme, darunter auch Windows. Das msi-Paket sollte man als Administrator installieren; ein Installationspfad außerhalb von Program Files hat sich zumindest auf meinem Windows 8 - System als nützlich erwiesen.</p>
+<img alt="../_images/jenkins_ci1.jpg" src="../_images/jenkins_ci1.jpg" />
+<p>Jenkins ist über Plugins flexibel konfigurierbar; in unserem Falle werden wir folgende Plugins installieren:</p>
+<img alt="../_images/jenkins_plugins1.jpg" src="../_images/jenkins_plugins1.jpg" />
+<ul class="simple">
+<li>NUnit: Zum Rendern der NUnit-Ausgabe</li>
+<li>MSBUILD: Zum Builden von Solution-Files</li>
+<li>NANT: Zum Anstoßen weiterer Funktionalitäten</li>
+<li>VStudio Code Metrics: Zum Erzeugen einfacher Metriken per metrics.exe</li>
+</ul>
+<p>Diese Plugins müssen global installiert und konfiguriert werden.</p>
+<img alt="../_images/jenkins_msbuild1.jpg" src="../_images/jenkins_msbuild1.jpg" />
+<img alt="../_images/jenkins_nant1.jpg" src="../_images/jenkins_nant1.jpg" />
+<img alt="../_images/jenkins_projekt_svn1.jpg" src="../_images/jenkins_projekt_svn1.jpg" />
+<p>Weitere Konfigurationen werden dann innerhalb eines Projekte vorgenommen.</p>
+<p>Weiterhin müssen noch Benutzer mit entsprechenden Zugriffsberechtigungen auf jeweilige Projekte angelegt werden.</p>
+</div>
+<div class="section" id="jobs-anlegen">
+<h2>Jobs anlegen<a class="headerlink" href="#jobs-anlegen" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Das Anlegen eines Projektes erfolgt in Jenkins unter <strong>Neues Item anlegen</strong></p>
+<img alt="../_images/jenkins_freestyle1.jpg" src="../_images/jenkins_freestyle1.jpg" />
+<img alt="../_images/jenkins_projekt_einstellung1.jpg" src="../_images/jenkins_projekt_einstellung1.jpg" />
+</div>
+<div class="section" id="jobs-konfigurieren">
+<h2>Jobs Konfigurieren<a class="headerlink" href="#jobs-konfigurieren" title="Link zu dieser Überschrift">¶</a></h2>
+<p>In unserem beispiel sollen die bisher lokal ausgeführten Bild-Schritte nun durch Jenkins realisiert werden. Dazu sind die Schritte <strong>Buildverfahren</strong> sowie <strong>Post-Build-Aktion</strong> zu konfigurieren.</p>
+<img alt="../_images/build_aktion1.jpg" src="../_images/build_aktion1.jpg" />
+<p>Buildverfahren definieren dabei die Aktionen, die ausgeführt werden müssen. Post-Build-Aktionen definieren dabei, was mit den Ergebnissen der Build-Verfahren geschehen soll. In unserem Beispiel werden die Ergebnisse der NANT und Metrics-Ausgaben (XMl-Dateien) über einen „Publisher“ grafisch aufbereitet und in die Übersichtsseite des jeweiligen Buildvorgangs dann integriert.
+Voraussetzung dafür war natürlich das Installieren der jeweiligen Publisher-Plugins in Jenkins zuvor.</p>
+<img alt="../_images/build_publish1.jpg" src="../_images/build_publish1.jpg" />
+<p>Falls alles klappt, sieht anschließend die Startseite eines Projektes wie folgt aus.</p>
+<img alt="../_images/project_dashboard1.jpg" src="../_images/project_dashboard1.jpg" />
+<p>Nach dem Klicken auf einen jeweiligen Buildvorgang werden Details dargestellt.</p>
+<img alt="../_images/project_metrics1.jpg" src="../_images/project_metrics1.jpg" />
+<img alt="../_images/project_nunit1.jpg" src="../_images/project_nunit1.jpg" />
+</div>
+<div class="section" id="aufgaben">
+<h2>Aufgaben:<a class="headerlink" href="#aufgaben" title="Link zu dieser Überschrift">¶</a></h2>
+<ul>
+<li><p class="first">Erstellen API-Dokumentation</p>
+<p>Das Programm doxygen (<a class="reference external" href="http://www.doxygen.org">http://www.doxygen.org</a>) erstellt aus dem Quellcode eines Programms eine API-Dokumentation. Der Ablauf der lokalen Erstellung ist wie folgt:</p>
+<ul>
+<li><p class="first">Definieren eines Konfigurationsfiles mit Hilfe eines GUI-Tools (doxywizard)</p>
+<img alt="../_images/doxygen_wizard1.jpg" src="../_images/doxygen_wizard1.jpg" />
+</li>
+<li><p class="first">Erstellen eines API-Dokumentation durch Aufruf von</p>
+<img alt="../_images/doxygen_aufruf1.jpg" src="../_images/doxygen_aufruf1.jpg" />
+</li>
+</ul>
+</li>
+</ul>
+<div class="sidebar">
+<p class="first sidebar-title">Beachte</p>
+<blockquote>
+<div>In Jenkins muss zur Ausgabe der HTML-Publisher-Plugin instaliert werden</div></blockquote>
+<div class="admonition-aufgabe last admonition">
+<p class="first admonition-title">Aufgabe</p>
+<p>Erstellen sie eine lokal ablauffähige Lösung.</p>
+<p>Passen Sie dann die entsprechende Konfiguration an und implementieren Sie diese auf dem CI Server Jenkins. Doxygen ist auf dem CI Server installiert.</p>
+<p class="last">Zum Ablauf der Erstellung muss natürlich ein neues Target innerhalb des NANT-Buildfiles erstellt werden.</p>
+</div>
+</div>
+<ul>
+<li><p class="first">Erstellen Installer Innosetup</p>
+<p>Ähnlich wie bei Doxygen kann man mit Hilfe des Programms Innnosetup einen Installer erstellen lassen. Der Ablauf ist prinzipiell der gleich wie bei doxygen.</p>
+<p>Mit Hilfe eines Wizards wird ein Konfigurationsfile erstellt, welches dann über ein Konsolenprogramm aufgerufen wird. Dieser Aufruf muss dann in gleicher Weise auf dem CI Server abgebildet werden.</p>
+<p>Das Konsolenprogramm für den Aufruf des installers heißt iscc.exe. Dies erwartet als Kommandozeilenparameter die Übergabe eines Konfigurationsfiles.</p>
+<p>Die Vorgehensweise auf der CI-Server-Seite ist die gleiche wie beim Erstellen der Doku.</p>
+<img alt="../_images/innosetup_11.jpg" src="../_images/innosetup_11.jpg" />
+<img alt="../_images/innosetup_21.jpg" src="../_images/innosetup_21.jpg" />
+<img alt="../_images/innosetup_31.jpg" src="../_images/innosetup_31.jpg" />
+<div class="admonition-aufgabe admonition">
+<p class="first admonition-title">Aufgabe</p>
+<p>Erstellen sie eine lokal ablauffähige Lösung.</p>
+<p>Passen Sie dann die entsprechende Konfiguration an und implementieren Sie diese auf dem CI Server Jenkins. Innosetup (iscc.exe)  ist auf dem CI Server installiert.</p>
+<p class="last">Zum Ablauf der Erstellung muss natürlich ein neues Target innerhalb des NANT-Buildfiles erstellt werden.</p>
+</div>
+</li>
+<li><p class="first">Darstellen von Artefakten</p>
+<p>Häufig haben Build-Prozesse auch Ergebnisse in Dateiform. Bei einem Installer wird z.B. am Ende eine Datei setup.exe erzeugt, die man gerne innerhalb des Ci-Servers dann anzeigen würde.</p>
+<p>Jenkis kennt für diese Aufgabe die sog. Artefact-Plugins, die solche Dateien dann in der Projektoberfläche anklickbar machen. In unserem Falle wurde das <strong>Artifact Deployer Plugin</strong> verwendet, um die Datei setup.exe zu verlinken.</p>
+<img alt="../_images/artifact_11.jpg" src="../_images/artifact_11.jpg" />
+<div class="admonition-aufgabe admonition">
+<p class="first admonition-title">Aufgabe</p>
+<p class="last">Bilden sie die Ausgabe der Datei setup.exe mit Hilfe des Plugins ab.</p>
+</div>
+<img alt="../_images/artifact_21.jpg" src="../_images/artifact_21.jpg" />
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Runde 3</a><ul>
+<li><a class="reference internal" href="#ci-server-jenkins">CI Server Jenkins</a></li>
+<li><a class="reference internal" href="#jobs-anlegen">Jobs anlegen</a></li>
+<li><a class="reference internal" href="#jobs-konfigurieren">Jobs Konfigurieren</a></li>
+<li><a class="reference internal" href="#aufgaben">Aufgaben:</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/tag3.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>

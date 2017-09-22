@@ -1,0 +1,92 @@
+Einleitung
+-----------
+
+Dieses Tutorial soll einen Einstieg in die Aspekte
+
+- Versionsverwaltung
+- Unit Testing
+- Metriken
+- Refactoring 
+- Automatisierte Build
+- Continuous Integration
+
+bieten.
+
+Es sind mittlerweile Grundelemente einer jeden (agilen) Softwareentwicklung und füllen den Begriff mit Inhalt.
+
+
+
+
+
+
+#. Versionsverwaltung
+
+
+Nicht nur in Teams und verteilten Standorten ist eine Verwaltung des Quellcodes von außerordentlicher Bedeutung. Das Nachvollziehen von Änderungen, das eventuell notwendige Rückgängigmachen von Änderungen gehört heute zu jedem ordentlichen Programmierer dazu.
+In unserem Beispiel werden wir mit Hilfe der zentralen Softwareverwaltung Subversion die grundlegenden Prinzipien kennenlernen. Dazu gehört z.B. auch
+
+- die Absprache, an welchen Quellcode-Dateien ein Entwickler gerade arbeitet
+- das Vermeiden von Konflikten
+
+
+#. Unit Testing
+
+
+TDD (Test Driven Development) ist eine Vorgehensweise, die die Entwicklung des Programmcodes eng an das Testen des Quellcodes bindet. In einer extremen Sichtweise wird sogar der Test vor dem Schreiben des Quellcodes gelegt. Der Test definiert somit die Spezifikation des Pflichtenheftes.
+
+Unit Testing hat zum Ziel, den Quellcode **ständig, wiederholbar und automatisiert** zu testen. 
+Jede Änderung im bestehenden Quellcode kann sofort durch einen Test validiert werden; der Entwickler enthält somit ein sofortiges Feedback über seine Änderungen.
+
+Das Tutorial verwendet als Unit-Testing-Tool das Open-Source-Programm NUnit; die Vorgehensweise kann aber leicht an andere *Unit*-Testing-Frameworks angepasst werden.
+
+
+#. Metriken
+
+
+Metriken messen bestimmte Eigenschaften von Quellcode, z.B. Lines of Code, Zyklomatische Komplexität, Vererbungstiefe, Kopplungsgrad von Objekten,...
+
+Mit diesen Werten sind anschließend bestimmte Aussagen über die Qualität des Codes möglich. Schlechter Code kann anschließend refaktorisiert werden.
+
+
+
+#. Refactoring
+
+
+Bestehender Quellcode ist häufig noch nicht "optimal". Dies äußert sich z.B. in 
+
+- zu langen Methoden
+- Lagerung des Quellcodes am falschen Ort
+- Nicht-Beachten von allgemein anerkannten Programmierprinzipien
+- schlechten Metriken
+
+
+Refactoring beschreibt Vorgehensweisen, wie man solche "Probleme" erkennt und behebt.
+Weiterhin muss natürlich sichergestellt sein, dass nach einem Refactoring der Quellcode immer noch die gleichen Testergebnisse zurückliefert.
+
+
+
+#. Automatische Builds
+
+
+Das Erstellen eines Programms bedeutet häufig mehr Arbeitsschritte als das reine Compilieren des Quellcodes. So müssen evtl.
+
+- weitere Compiliervorgänge angestoßen werden
+- Tests aufgerufen weren
+- Datenbanken durch Skripte angepasst werden, 
+- Ausgabeordner für das Compilat erstellt werden, 
+- Setup-Programme aufgerufen werden 
+- API-Dokumentationen aktualisiert werden. 
+
+All diese Dinge könnten auch manuell angestoßen werden. Häufig werden aber diese Aufgaben nicht zeitnah ausgeführt oder vielleicht sogar vergessen.
+
+Build-Tools können diese Aufgaben automatisieren, indem Sie einmal erstellt werden und dann lediglich aufgerufen werden. Sie dokumentieren damit gleichzeitig den firmeninternen Softwareentwicklungsprozess. In unserem Tutorial verwenden wir die Build-Tool MSBUILD und NAnt.
+
+
+#. Continuous Integration (CI)
+
+
+CI führt die oben genannten Einzelschritte unter einer einheitlichen Oberfläche zusammen und bereitet die Ausgabe der entsprechenden Teilvorgänge in einer optisch ansprechenden Weise auf.
+
+In unserem Tutorial verwenden wir den Open Source CI Server Jenkins;
+
+

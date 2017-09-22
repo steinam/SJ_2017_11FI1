@@ -1,0 +1,478 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Runde 4 &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="runde-4">
+<h1>Runde 4<a class="headerlink" href="#runde-4" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="refactoring">
+<h2>Refactoring<a class="headerlink" href="#refactoring" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="admonition-zitat admonition">
+<p class="first admonition-title">Zitat</p>
+<p>Refactoring (auch Refaktorierung oder Restrukturierung) bezeichnet in der Software-Entwicklung die manuelle oder automatisierte Strukturverbesserung von Quelltexten unter Beibehaltung des beobachtbaren Programmverhaltens. Dabei sollen die Lesbarkeit, Verständlichkeit, Wartbarkeit und Erweiterbarkeit verbessert werden, mit dem Ziel, den jeweiligen Aufwand für Fehleranalyse und funktionale Erweiterungen deutlich zu senken.</p>
+<p>Refactoring ist ein zentraler Bestandteil der Agilen Softwareentwicklung. Dort wird meist von „kontinuierlichem“ Refactoring [1] oder „kompromisslosem“ Refactoring [2] gesprochen. Refactoring ist in der agilen Softwareentwicklung wie Kodieren oder Modultesten ein integraler Bestandteil des Softwareentwicklungsprozesses und nicht auf bestimmte Zeiten bzw. Phasen beschränkt.</p>
+<p class="last">Quelle: <a class="reference external" href="http://de.wikipedia.org/wiki/Refactoring">http://de.wikipedia.org/wiki/Refactoring</a></p>
+</div>
+<p>Refactoring wird hauptsächlich auf unschöne Stellen im Code (siehe Code-Smell) angewandt. Diese sind z.B. mit Hilfe von schlechten Metrikwerten als solche zu erkennen. Dabei wird der Quelltext eines Computerprogramms umgestaltet, wobei die tatsächliche Programmfunktion unverändert bleiben soll. Die Umgestaltung des Quelltextes erfolgt meist nach folgenden Gesichtspunkten:</p>
+<ul class="simple">
+<li>Lesbarkeit</li>
+<li>Übersichtlichkeit</li>
+<li>Verständlichkeit</li>
+<li>Erweiterbarkeit</li>
+<li>Vermeidung von Redundanz</li>
+<li>Testbarkeit</li>
+</ul>
+<p>Folgendes sind besonders häufig eingesetzte Refactorings:</p>
+<ul class="simple">
+<li>Änderung eines Symbolnamens.</li>
+<li>Verschieben eines Symbols in ein anderes Modul, z. B. eine Methode in eine andere Klasse.</li>
+<li>Aufteilung eines Moduls (z. B. Paket, Klasse, Methode) in mehrere kleinere Module oder Zusammenlegung kleinerer Module zu einem größeren.</li>
+<li>Im weitesten Sinne auch die Umformatierung eines Quelltextes, z. B. mit einem Beautifier.</li>
+<li>Bei geänderten Geschäftsprozessen bei Darstellung mittels der Unified Modeling Language UML kann mittels „Refactoring“ der Programmcode geändert werden. Dadurch wird eine robuste und stabile Systemarchitektur geschaffen, da unübersichtliche Änderungen nicht im Code initiiert werden müssen.</li>
+</ul>
+<p>Im weiteren Verlauf wollen wir nun den Quelltext hinsichtlich eines möglichen Refactorings untersuchen.</p>
+</div>
+<div class="section" id="aufteilen-umfangreicher-methoden">
+<h2>Aufteilen umfangreicher Methoden<a class="headerlink" href="#aufteilen-umfangreicher-methoden" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Ausgangspunkt unserer Überlegungen ist, dass die Statement-Methode der Klasse Customer um eine html-Ausgabe erweitert werden soll. Das notwendige Verändern der Methode kann deshalb mit weiteren Optimierungen verbunden werden.</p>
+</div>
+<div class="section" id="methoden-herausnehmen">
+<h2>Methoden herausnehmen<a class="headerlink" href="#methoden-herausnehmen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Extract Method</p>
+</div>
+<p>Eine Reduzierung der Komplexität einer Methode besteht häufig daran, logische Teile innerhalb einer Methode zu finden, diese auszulagern und damit die Komplexität der Methode zu verringern.</p>
+<div class="admonition-aufgabe admonition">
+<p class="first admonition-title">Aufgabe</p>
+<p class="last">Welche Teile des Statement-Methode würden sich dazu anbieten ?</p>
+</div>
+<a class="reference internal image-reference" href="../_images/refac_extract_vorher1.jpg"><img alt="../_images/refac_extract_vorher1.jpg" src="../_images/refac_extract_vorher1.jpg" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/refac_extract_nachher1.jpg"><img alt="../_images/refac_extract_nachher1.jpg" src="../_images/refac_extract_nachher1.jpg" style="width: 300px;" /></a>
+<a class="reference internal image-reference" href="../_images/refac_extract_nachher_21.jpg"><img alt="../_images/refac_extract_nachher_21.jpg" src="../_images/refac_extract_nachher_21.jpg" style="width: 300px;" /></a>
+<p>In unserem Beispiel wurde die switch-Anweisung in eine eigene Methode ausgelagert. Wenn korrekte Datentypen bei der Übergabe von Parametern definiert werden, darf diese Codeänderung anschließend keine negativen Auswirkungen auf diese Tests haben.</p>
+<img alt="../_images/testergebnis_refactor_11.jpg" src="../_images/testergebnis_refactor_11.jpg" />
+<p>Die Codemetriken für diese Methode ändern sich ebenfalls in die positive Richtung.</p>
+<img alt="../_images/refactor_method_1_metrics_vorher1.jpg" src="../_images/refactor_method_1_metrics_vorher1.jpg" />
+<img alt="../_images/refactor_method_1_metrics_nachher1.jpg" src="../_images/refactor_method_1_metrics_nachher1.jpg" />
+</div>
+<div class="section" id="umbenennen">
+<h2>Umbenennen<a class="headerlink" href="#umbenennen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Renaming</p>
+</div>
+<p>Nachdem die Tests keine Fehler liefern, kann die neue Version noch zum Umbenennen von einigen Variablen genommen werden. Moderne IDE’s unterstützen den Entwickler dabei weitgehend und verständliche Namen erhöhen die Nachvollziehbarkeit des Quellcodes.</p>
+<img alt="../_images/refactor_rename1.jpg" src="../_images/refactor_rename1.jpg" />
+<p>Ein Neukompilieren sowie das Ausführen der Tests bestätigt, dass es keine Fehler gegeben hat.</p>
+</div>
+<div class="section" id="methoden-verschieben">
+<h2>Methoden verschieben<a class="headerlink" href="#methoden-verschieben" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Move Methods</p>
+</div>
+<p>Beim Betrachten der eben erstellten Methode <strong>amountFor()</strong> fällt auf, dass diese Informationen aus der <em>Rental</em>-Klasse benutzt, aber eigentlich überhaupt keine Informationen aus der <em>Customer</em>-Klasse. Es fehlt damit die Kohäsion zwischen Methode und Instanzattributen und ein entsprechendes Metrik-Tool würde hier sicherlich einen schlechten LCOM-Metrik errechnen.</p>
+<p>Die Methode wäre deshalb besser in der <em>rental</em>-Klasse aufgehoben. man kopiert deshalb zunächst die Methode in die entsprechende Klasse und passt Sie anschließend wie folgt an.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="kt">double</span> <span class="nf">GetCharge</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">double</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="c1">// Determine amounts for each line</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">m_Movie</span><span class="p">.</span><span class="n">PriceCode</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">:</span>
+            <span class="n">result</span> <span class="p">+=</span> <span class="m">2</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">2</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">result</span> <span class="p">+=</span> <span class="p">(</span><span class="n">DaysRented</span> <span class="p">-</span> <span class="m">2</span><span class="p">)</span> <span class="p">*</span> <span class="m">1.5</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">:</span>
+            <span class="n">result</span> <span class="p">+=</span> <span class="n">DaysRented</span> <span class="p">*</span> <span class="m">3</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+
+        <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">:</span>
+            <span class="n">result</span> <span class="p">+=</span> <span class="m">1.5</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">result</span> <span class="p">+=</span> <span class="p">(</span><span class="n">DaysRented</span> <span class="p">-</span> <span class="m">3</span><span class="p">)</span> <span class="p">*</span> <span class="m">1.5</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In der Klasse <em>Customer</em> ist der Quellcode der amountFor-Methode durch folgende Vereinfachung anzupassen.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">private</span> <span class="kt">double</span> <span class="nf">amountFor</span><span class="p">(</span><span class="n">Rental</span> <span class="n">aRental</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">aRental</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Falls es immer noch fehlerfrei läuft, kann die amountFor-Methode vernachlässigt werden. Die Umleitung auf die Rental-Klasse kann wieder direkt in der Statement()-Methode erfolgen.</p>
+<img alt="../_images/refac_move_method_21.jpg" src="../_images/refac_move_method_21.jpg" />
+<p>Die vorhandenen UnitTests sollten noch immer funktionieren und auch die CodeMetrik sollte keine signifikanten Änderungen erfahren haben.</p>
+<img alt="../_images/refac_move_method_metrics1.jpg" src="../_images/refac_move_method_metrics1.jpg" />
+<p>Das abschließende Klassendiagramm hat sich vom Ausgangspunkt wie folgt geändert.</p>
+<img alt="../_images/prgramm_startingpoint1.jpg" src="../_images/prgramm_startingpoint1.jpg" />
+<img alt="../_images/kd_refac_methods1.jpg" src="../_images/kd_refac_methods1.jpg" />
+<p><strong>UnitTests</strong></p>
+<p>Durch die neue öffentliche Methode in <strong>Rental</strong> müssten für getcharge() neue UnitTests geschrieben werden. Sie können diese unter UnitTest3.cs in ihr Projekt integrieren.</p>
+</div>
+<div class="section" id="eliminiere-temp-variablen">
+<h2>Eliminiere Temp-Variablen<a class="headerlink" href="#eliminiere-temp-variablen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Replace Temp with Query</p>
+</div>
+<p>Temporäre Variablen sind ein weiteres Indiz für Optimierungen. Sie überleben häufig im Produktivcode und nach einiger Zeit ist man sich deren Notwendigkeit unsicher.</p>
+<p>In unserem beispiel kann die Deklaration und Benutzung von thisAmount in der while-Schleife durch each.getCharge() ersetzt werden.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="p">(</span> <span class="n">rentals</span><span class="p">.</span><span class="n">MoveNext</span><span class="p">()</span> <span class="p">)</span>
+<span class="p">{</span>
+
+        <span class="n">Rental</span> <span class="n">each</span> <span class="p">=</span> <span class="p">(</span><span class="n">Rental</span><span class="p">)</span><span class="n">rentals</span><span class="p">.</span><span class="n">Current</span><span class="p">;</span>
+
+        <span class="c1">// Determine amounts for each line</span>
+                                        <span class="c1">// Add frequent renter points</span>
+        <span class="n">frequentRenterPoints</span><span class="p">++;</span>
+
+        <span class="c1">// Add bonus for a two-day new-release rental</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">PriceCode</span> <span class="p">==</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">))</span>
+        <span class="p">{</span>
+                <span class="n">frequentRenterPoints</span> <span class="p">++;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Show figures for this rental</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">Title</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+        <span class="n">totalAmount</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Die Optimierung hinsichtlich der Lesbarkeit wird in diesem Beispiel natürlich durch eine doppelte Berechnung hinterfragbar. Dieser Nachteil wäre aber durch eine Änderung in der Klasse Rental ausgleichbar. Darauf wird später noch eingegangen</p>
+</div>
+<div class="section" id="auslagern-von-methoden">
+<h2>Auslagern von Methoden<a class="headerlink" href="#auslagern-von-methoden" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Move Methods</p>
+</div>
+<p>Auch die Rabattpunkte sind ein Kandidat für das Auslagern in eine andere Methode.</p>
+<img alt="../_images/refac_frequent_renter1.jpg" src="../_images/refac_frequent_renter1.jpg" />
+<p>Bei der Implementierung der Methode ist zu beachten, dass die <em>frequentrenterPoints</em>-Variable evtl. zweimal erhöht wird. Dies ist in der Methode entsprechend zu implementieren.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Customer</span>
+<span class="p">{</span>
+<span class="c1">//....</span>
+
+   <span class="k">while</span> <span class="p">(</span> <span class="n">rentals</span><span class="p">.</span><span class="n">MoveNext</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+   <span class="n">Rental</span> <span class="n">each</span> <span class="p">=</span> <span class="p">(</span><span class="n">Rental</span><span class="p">)</span><span class="n">rentals</span><span class="p">.</span><span class="n">Current</span><span class="p">;</span>
+
+   <span class="n">frequentRenterPoints</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">();</span>
+
+   <span class="c1">// Show figures for this rental</span>
+
+
+<span class="k">class</span> <span class="nc">Rental</span>
+<span class="p">{</span>
+
+<span class="p">....</span>
+
+ <span class="k">public</span> <span class="kt">int</span> <span class="nf">GetFrequentRenterPoints</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">Movie</span><span class="p">.</span><span class="n">PriceCode</span> <span class="p">==</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span> <span class="p">&amp;&amp;</span> <span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="m">2</span><span class="p">;</span>
+        <span class="k">else</span>
+                <span class="k">return</span> <span class="m">1</span><span class="p">;</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p>Weitere Tests sichern die Funktionalität der ausgelagerten Methode.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">TestNewPublicMethod_RentalGetFrequentRenterPointsNewReleasePrice</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Rental</span> <span class="n">_RentalSuperman1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">),</span><span class="m">1</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">_RentalSuperman1</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+
+  <span class="n">Rental</span> <span class="n">_RentalSuperman3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">),</span><span class="m">3</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="n">_RentalSuperman3</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">TestNewPublicMethod_RentalGetFrequentRenterPointsChildrensPrice</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Rental</span> <span class="n">_RentalSuperman1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">),</span><span class="m">1</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">_RentalSuperman1</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+
+  <span class="n">Rental</span> <span class="n">_RentalSuperman3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">),</span><span class="m">3</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">_RentalSuperman3</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">TestNewPublicMethod_RentalGetFrequentRenterPointsRegularPrice</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Rental</span> <span class="n">_RentalSuperman1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">),</span><span class="m">1</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">_RentalSuperman1</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+
+  <span class="n">Rental</span> <span class="n">_RentalSuperman3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Superman&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">),</span><span class="m">3</span><span class="p">);</span>
+  <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">_RentalSuperman3</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Das Klassendiagramm ändert sich entsprechend.</p>
+<img alt="../_images/kd_refac_renterpoints1.jpg" src="../_images/kd_refac_renterpoints1.jpg" />
+<p>Die Metriken für das Projekt haben anschließend folgende Werte:</p>
+<img alt="../_images/metrik_nach_frequentrentner1.jpg" src="../_images/metrik_nach_frequentrentner1.jpg" />
+</div>
+<div class="section" id="code-verbesserungen">
+<h2>Code-Verbesserungen<a class="headerlink" href="#code-verbesserungen" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Innerhalb der Statement-Methode kann eine weitere Verbesserung dadurch erreich werden, dass man die Java-Like „enumerator - while“-Schleife durch ein foreach-Konstrukt ersetzt.</p>
+<img alt="../_images/enumerator_foreach1.jpg" src="../_images/enumerator_foreach1.jpg" />
+<img alt="../_images/enumerator_foreach_21.jpg" src="../_images/enumerator_foreach_21.jpg" />
+<p>Die Statement()-Methode sieht nun wie folgt aus:</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="kt">string</span> <span class="nf">Statement</span><span class="p">()</span>
+<span class="p">{</span>
+        <span class="kt">double</span> <span class="n">totalAmount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">frequentRenterPoints</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+        <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;Rental record for &quot;</span> <span class="p">+</span> <span class="n">m_Name</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+        <span class="k">foreach</span> <span class="p">(</span> <span class="n">Rental</span> <span class="n">each</span> <span class="k">in</span> <span class="n">m_Rentals</span> <span class="p">)</span>
+        <span class="p">{</span>
+
+                <span class="c1">// Determine amounts for each line</span>
+                <span class="c1">// Add frequent renter points</span>
+                <span class="n">frequentRenterPoints</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">();</span>
+
+                <span class="c1">// Show figures for this rental</span>
+                <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">Title</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+                <span class="n">totalAmount</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Add footer lines</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;Amount owed is &quot;</span> <span class="p">+</span> <span class="n">totalAmount</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;You earned &quot;</span> <span class="p">+</span> <span class="n">frequentRenterPoints</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot; frequent renter points.&quot;</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="temporare-variablen-ersetzen">
+<h2>Temporäre Variablen ersetzen<a class="headerlink" href="#temporare-variablen-ersetzen" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">Regel</p>
+<p class="last">Replace temp with Query</p>
+</div>
+<p>Wie schon weiter oben erwähnt, können temporäre Variablen ein Problem darstellen.</p>
+<ul class="simple">
+<li>Sie sind nur nutzbar in der der eigenen Methode</li>
+<li>Keine Wiederverwendbarkeit</li>
+</ul>
+<p>In unserem Beispiel bieten sich die Variablen <strong>totalAmount</strong> sowie <strong>frequentRentalPoints</strong> zum Refaktorisieren an.</p>
+<img alt="../_images/get_totalcharge1.jpg" src="../_images/get_totalcharge1.jpg" />
+<p>Da <em>totalAmount</em> innerhalb einer Schleife errechnet wurde, muss diese Schleifenstruktur innerhalb der Methode getTotalCharge() nachgebildet werden.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">private</span> <span class="kt">double</span> <span class="nf">GetTotalCharge</span><span class="p">()</span> <span class="p">{</span>
+   <span class="kt">double</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+   <span class="k">foreach</span> <span class="p">(</span> <span class="n">Rental</span> <span class="n">each</span> <span class="k">in</span> <span class="n">m_Rentals</span> <span class="p">)</span> <span class="p">{</span>
+     <span class="n">result</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">();</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Die gleiche Vorgehensweise ist für frequentrenterPoints nachzuholen.</p>
+<div class="admonition-aufgabe admonition">
+<p class="first admonition-title">Aufgabe</p>
+<p>Erstellen Sie eine Methode <em>GetTotalFrequentRenterPoints</em> und führen Sie die Refaktorisierung durch.</p>
+<img alt="../_images/frequent_renter_points_11.jpg" class="last" src="../_images/frequent_renter_points_11.jpg" />
+</div>
+<div class="admonition-losung admonition">
+<p class="first admonition-title">Lösung</p>
+<div class="last highlight-csharp"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="kt">string</span> <span class="nf">Statement</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;Rental record for &quot;</span> <span class="p">+</span> <span class="n">m_Name</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+  <span class="k">foreach</span> <span class="p">(</span> <span class="n">Rental</span> <span class="n">each</span> <span class="k">in</span> <span class="n">m_Rentals</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Show figures for this rental</span>
+    <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">title</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Add footer lines</span>
+  <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;Amount owed is &quot;</span> <span class="p">+</span> <span class="n">GetTotalCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+  <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;You earned &quot;</span> <span class="p">+</span> <span class="n">GetTotalFrequentRenterPoints</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span>
+    <span class="p">+</span> <span class="s">&quot; frequent renter points.&quot;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="kt">int</span> <span class="nf">GetTotalFrequentRenterPoints</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">result</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+  <span class="k">foreach</span> <span class="p">(</span> <span class="n">Rental</span> <span class="n">each</span> <span class="k">in</span> <span class="n">m_Rentals</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="n">result</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">GetFrequentRenterPoints</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition-ubersetzen-sie-die-folgenden-aussagen-sinngemasz admonition">
+<p class="first admonition-title">Übersetzen Sie die folgenden Aussagen sinngemäß</p>
+<p>It is worth stopping to think a bit about the last refactoring. Most refactorings reduce the amount of code, but this one  increases it. That’s because Java 1.1 requires a lot of statements to set up a summing loop. Even a simple summing loop with one line of code per element needs six lines of support around it. It’s an idiom that is obvious to any programmer but is a lot of lines all the same.</p>
+<p>The other concern with this refactoring lies in performance. The old code executed the „while“ loop once, the new code executes it three times. A while loop that takes a long time might impair performance. Many programmers would not do this refactoring simply for this reason. But note the words if and might. Until I profile I cannot tell how much time is needed for the loop to calculate or whether the loop is called often enough for it to affect the overall performance of the system.</p>
+<p>Don’t worry about this while refactoring. When you optimize you will have to worry about it, but you will then be in a much better position to do something about it, and you will have more options to optimize effectively.</p>
+<p class="last">These queries are now available for any code written in the customer class. They can easily be added to the interface of the class should other parts of the system need this information. Without queries like these, other methods have to deal with knowing about the rentals and building the loops. In a complex system, that will lead to much more code to write and maintain.</p>
+</div>
+</div>
+<div class="section" id="html-statement">
+<h2>HTML-Statement<a class="headerlink" href="#html-statement" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Nach all den Refaktoriesierungen ist es nun einfach, eine HTML-Statement-Methode zu schreiben, da Sie viele interne Implementierungen wiederverwenden kann.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="kt">string</span> <span class="nf">HTMLStatement</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;&lt;H1&gt;Rental record for &lt;EM&gt;&quot;</span> <span class="p">+</span> <span class="n">m_Name</span> <span class="p">+</span> <span class="s">&quot;&lt;/EM&gt;&lt;/H1&gt;&lt;P&gt;\n&quot;</span><span class="p">;</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="n">Rental</span> <span class="n">each</span> <span class="k">in</span> <span class="n">m_Rentals</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">result</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">title</span> <span class="p">+</span> <span class="s">&quot;: &quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">GetCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;&lt;BR&gt;\n&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Add footer lines</span>
+    <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;&lt;P&gt;Amount owed is &lt;EM&gt;&quot;</span> <span class="p">+</span> <span class="n">GetTotalCharge</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;&lt;/EM&gt;&lt;P&gt;\n&quot;</span><span class="p">;</span>
+    <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;You earned &lt;EM&gt;&quot;</span> <span class="p">+</span> <span class="n">GetTotalFrequentRenterPoints</span><span class="p">().</span><span class="n">ToString</span><span class="p">()</span>
+      <span class="p">+</span> <span class="s">&quot;&lt;/EM&gt; frequent renter points.&lt;P&gt;&quot;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="neue-unit-tests">
+<h2>Neue Unit-Tests<a class="headerlink" href="#neue-unit-tests" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Die HTML-Statement-Methode maht natürlich auch neue Unit-Tests notwendig.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">TestHTMLstatement</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">Customer</span> <span class="n">_LiverLips</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Liver Lips&quot;</span><span class="p">);</span>
+    <span class="n">_LiverLips</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Enforcer&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">),</span> <span class="m">10</span><span class="p">));</span>
+    <span class="n">_LiverLips</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Apollo 13&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">),</span> <span class="m">3</span><span class="p">));</span>
+    <span class="n">_LiverLips</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Pulp Fiction&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">),</span> <span class="m">4</span><span class="p">));</span>
+
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Liver Lips&quot;</span><span class="p">,</span> <span class="n">_LiverLips</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span>
+      <span class="p">(</span><span class="s">&quot;&lt;H1&gt;Rental record for &lt;EM&gt;Liver Lips&lt;/EM&gt;&lt;/H1&gt;&lt;P&gt;\nEnforcer: 12&lt;BR&gt;\nApollo 13: &quot;</span>
+      <span class="p">+</span> <span class="s">&quot;9&lt;BR&gt;\nPulp Fiction: 5&lt;BR&gt;\n&lt;P&gt;Amount owed is &lt;EM&gt;26&lt;/EM&gt;&lt;P&gt;\n&quot;</span>
+      <span class="p">+</span> <span class="s">&quot;You earned &lt;EM&gt;4&lt;/EM&gt; frequent renter points.&lt;P&gt;&quot;</span>
+      <span class="p">,</span> <span class="n">_LiverLips</span><span class="p">.</span><span class="n">HTMLStatement</span><span class="p">());</span>
+    <span class="n">_LiverLips</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;The Good, The Bad, And The Ugly&quot;</span>
+      <span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">),</span> <span class="m">10</span><span class="p">));</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span>
+      <span class="p">(</span><span class="s">&quot;&lt;H1&gt;Rental record for &lt;EM&gt;Liver Lips&lt;/EM&gt;&lt;/H1&gt;&lt;P&gt;\nEnforcer: 12&lt;BR&gt;\nApollo 13: &quot;</span>
+      <span class="p">+</span> <span class="s">&quot;9&lt;BR&gt;\nPulp Fiction: 5&lt;BR&gt;\nThe Good, The Bad, And The Ugly: 12&lt;BR&gt;\n&lt;P&gt;&quot;</span>
+      <span class="p">+</span> <span class="s">&quot;Amount owed is &lt;EM&gt;38&lt;/EM&gt;&lt;P&gt;\nYou earned &lt;EM&gt;5&lt;/EM&gt; frequent renter points.&lt;P&gt;&quot;</span>
+      <span class="p">,</span> <span class="n">_LiverLips</span><span class="p">.</span><span class="n">HTMLStatement</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vergleich-vorher-nachher">
+<h2>Vergleich vorher/nachher<a class="headerlink" href="#vergleich-vorher-nachher" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Obwohl natürlich auch in anderen Klassen Veränderungen vorgenommen wurden, ist ein Vergleich der Statement()-Methode zu Beginn und zum jetzigen Zeitpunkt interessant.</p>
+<p>Man kann in der Versionsverwaltung durch ein Compare von Head und Revision 1 erreichen.</p>
+<img alt="../_images/vorher_nachher_11.jpg" src="../_images/vorher_nachher_11.jpg" />
+<img alt="../_images/vorher_nachher_21.jpg" src="../_images/vorher_nachher_21.jpg" />
+<img alt="../_images/vorher_nachher_31.jpg" src="../_images/vorher_nachher_31.jpg" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Runde 4</a><ul>
+<li><a class="reference internal" href="#refactoring">Refactoring</a></li>
+<li><a class="reference internal" href="#aufteilen-umfangreicher-methoden">Aufteilen umfangreicher Methoden</a></li>
+<li><a class="reference internal" href="#methoden-herausnehmen">Methoden herausnehmen</a></li>
+<li><a class="reference internal" href="#umbenennen">Umbenennen</a></li>
+<li><a class="reference internal" href="#methoden-verschieben">Methoden verschieben</a></li>
+<li><a class="reference internal" href="#eliminiere-temp-variablen">Eliminiere Temp-Variablen</a></li>
+<li><a class="reference internal" href="#auslagern-von-methoden">Auslagern von Methoden</a></li>
+<li><a class="reference internal" href="#code-verbesserungen">Code-Verbesserungen</a></li>
+<li><a class="reference internal" href="#temporare-variablen-ersetzen">Temporäre Variablen ersetzen</a></li>
+<li><a class="reference internal" href="#html-statement">HTML-Statement</a></li>
+<li><a class="reference internal" href="#neue-unit-tests">Neue Unit-Tests</a></li>
+<li><a class="reference internal" href="#vergleich-vorher-nachher">Vergleich vorher/nachher</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/tag4.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>

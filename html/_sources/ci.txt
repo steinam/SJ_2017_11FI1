@@ -1,0 +1,9 @@
+Continuous Integration
+======================
+
+
+.. include:: hudson/einleitung.rst
+.. include:: hudson/tag1.rst
+.. include:: hudson/tag2.rst
+.. include:: hudson/tag3.rst
+.. include:: hudson/tag4.rst

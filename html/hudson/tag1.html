@@ -1,0 +1,427 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Runde 1 &#8212; Softwareentwicklung</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../genindex.html" />
+    <link rel="search" title="Suche" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             accesskey="I">Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="runde-1">
+<h1>Runde 1<a class="headerlink" href="#runde-1" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="infrastruktur">
+<h2>Infrastruktur<a class="headerlink" href="#infrastruktur" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Der Aufbau der verwendeten Software in unserem Tutorial ist wie folgt:</p>
+<ul>
+<li><p class="first">Visual Studio</p>
+<p>Zur Arbeit mit dem Subversion-Server muss in VStudio ein SVN-Plugin (ANKH-SVN) installiert werden.
+Sie finden das entsprechende Programm im Order CI auf dem tauschlaufwerk.</p>
+</li>
+<li><p class="first">Subversion-Server</p>
+<p>Der entsprechende Quellcode ist pro Gruppe in einem SVN-Repository gespeichert.
+Jede Gruppe hat ihr entsprechendes Login und hat RW-Zugriff auf das Repository.
+Nachdem Sie das obige Plugin installiert haben, erstellen Sie in Visual Studio ein neues Projekt aus den Subversion-Server heraus und speichern es auf dem lokalen Rechner.</p>
+<img alt="../_images/VStudio_SVN_Projekt1.jpg" src="../_images/VStudio_SVN_Projekt1.jpg" />
+<img alt="../_images/VStudio_SVN_Projekt_11.jpg" src="../_images/VStudio_SVN_Projekt_11.jpg" />
+<img alt="../_images/VStudio_SVN_Projekt_21.jpg" src="../_images/VStudio_SVN_Projekt_21.jpg" />
+</li>
+<li><p class="first">Weitere Tools werden zu gegebener Zeit in Visual Studio hinzugefügt.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="das-programm">
+<h2>Das Programm<a class="headerlink" href="#das-programm" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Zu tun</p>
+<p class="last">Hier das bestehende Program vorstellen.</p>
+</div>
+<p>Das Beispielprogramm ist sehr einfach gehalten. Das Programm berechnet die Kundengebühren eines fiktiven Kunden in einem Videoladen und druckt diese aus. Es erhält dafür die Filme, die ein Kunde ausgeliehen hat, sowie die Dauer der Ausleihe. Es berechnet dann die Gebühren und identifiziert die Art des Films (normal, Kinder, Neuheit). Zusätzlich berechnet das Programm „Rabattpunkte“, die davon abhängen, ob der Film eine Neuheit ist.</p>
+<img alt="../_images/prgramm_startingpoint1.jpg" src="../_images/prgramm_startingpoint1.jpg" />
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="c1">//Movie.cs</span>
+
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">namespace</span> <span class="nn">Before</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">enum</span> <span class="n">PriceCodes</span> <span class="p">{</span>
+    <span class="n">Regular</span><span class="p">,</span> <span class="n">NewRelease</span><span class="p">,</span> <span class="n">Childrens</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">class</span> <span class="nc">Movie</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">m_Title</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">PriceCodes</span> <span class="n">m_PriceCode</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">Movie</span><span class="p">(</span><span class="kt">string</span> <span class="n">title</span><span class="p">,</span> <span class="n">PriceCodes</span> <span class="n">priceCode</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_Title</span> <span class="p">=</span> <span class="n">title</span><span class="p">;</span>
+      <span class="n">m_PriceCode</span> <span class="p">=</span> <span class="n">priceCode</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">PriceCodes</span> <span class="n">PriceCode</span>  <span class="p">{</span>
+      <span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_PriceCode</span><span class="p">;}</span>
+      <span class="k">set</span> <span class="p">{</span><span class="n">m_PriceCode</span> <span class="p">=</span> <span class="k">value</span><span class="p">;}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Title</span>  <span class="p">{</span>
+      <span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_Title</span><span class="p">;}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="c1">//Rental.cs</span>
+
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">namespace</span> <span class="nn">Fowler</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">class</span> <span class="nc">Rental</span>  <span class="p">{</span>
+    <span class="k">private</span> <span class="n">Movie</span> <span class="n">m_Movie</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">int</span> <span class="n">m_DaysRented</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">Rental</span><span class="p">(</span><span class="n">Movie</span> <span class="n">movie</span><span class="p">,</span> <span class="kt">int</span> <span class="n">daysRented</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_Movie</span> <span class="p">=</span> <span class="n">movie</span><span class="p">;</span>
+      <span class="n">m_DaysRented</span> <span class="p">=</span> <span class="n">daysRented</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">DaysRented</span> <span class="p">{</span>
+      <span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_DaysRented</span><span class="p">;}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Movie</span> <span class="n">Movie</span> <span class="p">{</span>
+      <span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_Movie</span><span class="p">;}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="c1">//Customer.cs</span>
+
+<span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+<span class="k">namespace</span> <span class="nn">Fowler</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">class</span> <span class="nc">Customer</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">m_Name</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">ArrayList</span>  <span class="n">m_Rentals</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="p">();</span>
+
+    <span class="k">public</span> <span class="nf">Customer</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span> <span class="p">{</span>
+      <span class="k">get</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_Name</span><span class="p">;}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">AddRental</span><span class="p">(</span><span class="n">Rental</span> <span class="n">arg</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">m_Rentals</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">//public string Statement() { //See the next page }</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Die Statement-Methode in der Klasse Customer führt nun alle Berechnungen durch. Folgendes Sequenzdiagramm zeigt den prinzipiellen Ablauf:</p>
+<img alt="../_images/prgramm_startingpoint_seq1.jpg" src="../_images/prgramm_startingpoint_seq1.jpg" />
+<div class="highlight-csharp"><div class="highlight"><pre><span></span>    <span class="k">public</span> <span class="kt">string</span> <span class="nf">Statement</span><span class="p">()</span> <span class="p">{</span>
+          <span class="kt">double</span> <span class="n">totalAmount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+          <span class="kt">int</span> <span class="n">frequentRenterPoints</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+          <span class="n">IEnumerator</span> <span class="n">rentals</span> <span class="p">=</span> <span class="n">m_Rentals</span><span class="p">.</span><span class="n">GetEnumerator</span><span class="p">();</span>
+          <span class="kt">string</span> <span class="n">result</span> <span class="p">=</span> <span class="s">&quot;Rental record for &quot;</span> <span class="p">+</span> <span class="n">m_Name</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+          <span class="k">while</span> <span class="p">(</span> <span class="n">rentals</span><span class="p">.</span><span class="n">MoveNext</span><span class="p">()</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="kt">double</span> <span class="n">thisAmount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+            <span class="n">Rental</span> <span class="n">each</span> <span class="p">=</span> <span class="p">(</span><span class="n">Rental</span><span class="p">)</span><span class="n">rentals</span><span class="p">.</span><span class="n">Current</span><span class="p">;</span>
+
+            <span class="k">switch</span><span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">PriceCode</span><span class="p">)</span> <span class="p">{</span>
+              <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">:</span>
+                <span class="n">thisAmount</span> <span class="p">+=</span> <span class="m">2</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="n">thisAmount</span> <span class="p">+=</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">-</span> <span class="m">2</span><span class="p">)</span> <span class="p">*</span> <span class="m">1.5</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+
+              <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">:</span>
+                <span class="n">thisAmount</span> <span class="p">+=</span> <span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">*</span><span class="m">3</span><span class="p">;</span>
+                <span class="k">break</span><span class="p">;</span>
+
+              <span class="k">case</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">:</span>
+                <span class="n">thisAmount</span> <span class="p">+=</span> <span class="m">1.5</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="n">thisAmount</span> <span class="p">=</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">-</span> <span class="m">3</span><span class="p">)</span> <span class="p">*</span> <span class="m">1.5</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="n">frequentRenterPoints</span><span class="p">++;</span>
+
+            <span class="k">if</span> <span class="p">((</span><span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">PriceCode</span> <span class="p">==</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">)</span>
+              <span class="p">&amp;&amp;</span> <span class="p">(</span><span class="n">each</span><span class="p">.</span><span class="n">DaysRented</span> <span class="p">&gt;</span> <span class="m">1</span><span class="p">))</span> <span class="p">{</span>
+              <span class="n">frequentRenterPoints</span> <span class="p">++;</span>
+            <span class="p">}</span>
+
+            <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;\t&quot;</span> <span class="p">+</span> <span class="n">each</span><span class="p">.</span><span class="n">Movie</span><span class="p">.</span><span class="n">Title</span> <span class="p">+</span> <span class="s">&quot;\t&quot;</span>
+              <span class="p">+</span> <span class="n">thisAmount</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+            <span class="n">totalAmount</span> <span class="p">+=</span> <span class="n">thisAmount</span><span class="p">;</span>
+          <span class="p">}</span>
+
+          <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;Amount owed is &quot;</span> <span class="p">+</span> <span class="n">totalAmount</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot;\n&quot;</span><span class="p">;</span>
+          <span class="n">result</span> <span class="p">+=</span> <span class="s">&quot;You earned &quot;</span> <span class="p">+</span> <span class="n">frequentRenterPoints</span><span class="p">.</span><span class="n">ToString</span><span class="p">()</span>
+            <span class="p">+</span> <span class="s">&quot; frequent renter points.&quot;</span><span class="p">;</span>
+          <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="entwickeln-unter-einer-versionsverwaltung">
+<h2>Entwickeln unter einer Versionsverwaltung<a class="headerlink" href="#entwickeln-unter-einer-versionsverwaltung" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Die Entwicklung mit/ohne Versionsverwaltung unterscheidet sich zunächst nicht wesentlich. Es ist lediglich zu beachten, dass jegliche Änderungen zunächst nur an der lokalen Kopie ausgeührt werden. Ein Änderung im zentralen Versions-Repository muss durch den Entwickler mit Hilfe eines <strong>Commits</strong>
+angestoßen werden.</p>
+<p>Bei einer Arbeit im Team weiß der einzelne Entwickler nicht, welche teile des Quellcodes zur Zeit von seinen Kollegen bearbeitet wird. Um sein lokales Projekt auf dem aktuellen Stand zu halten, muss er deshalb selbts häüfig <strong>Updates</strong> aus dem zentralen Repository in seine lokale Kopie einspielen. Hat er in der Zwischenzeit gleiceh Quellode-Teile wie ein anderer Entwickler bearbeitet, führt dies automatisch zu Konflikten im Quellcode, die dann manuell gelößt werden müssen. Diese „Ärgernisse“ führen im Alltag aber eher dazu, dass sich Entwickler genau absprechen, wer welche Codeteile bearbeitet. Es ist damit eher von Vortiel als von Nachteil.</p>
+<img alt="../_images/svncycle1.png" src="../_images/svncycle1.png" />
+<p>In unserem Beispiel wollen wir in den bestehenden Code einige Unit-Tests einbauen.</p>
+</div>
+<div class="section" id="erstellen-von-unit-tests">
+<h2>Erstellen von Unit-Tests<a class="headerlink" href="#erstellen-von-unit-tests" title="Link zu dieser Überschrift">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">NuGet</p>
+<p class="last">Informieren Sie sich über die NuGet-Pakteverwaltung von VisualStudio</p>
+</div>
+<p>Das Test-Framework NUnit kann auf verschiedene Weise installiert werden. Ein für das weitere Fortschreiten des  Projektes sinnvolles Vorgehen ist es, mit Hilfe des NuGet-Paketmanagers die notwendigen Dateien automatisch in das VStudio-Projekt zu integrieren.
+Neben der Installation des NUnit-Frameworks muss dies als Verweis in die Solution mit eingebunden werden. Ein using-Statement erlaubt anschlie0end den Zugriff auf die Funktionalitäten des Test-Frameworks.</p>
+<p>Für das Ausführen der Tests ist allerdings dennoch die manuelle Installation des Nunit-Frameworks notwendig.</p>
+<div class="admonition note">
+<p class="first admonition-title">Bemerkung</p>
+<p>Beschreiben Sie die wesentliche Funktionsweise eines Unit-Test-Frameworks.</p>
+<a class="last reference internal image-reference" href="../_images/notiz1.jpg"><img alt="../_images/notiz1.jpg" src="../_images/notiz1.jpg" style="width: 300px;" /></a>
+</div>
+<p>Zum Testen der korrekten Funktionalität sollen einige Demo-Objekte von Filmen, Kunden und Ausleihvorgängen erzeugt werden. Anschließend wird in einem ersten Test überprüft, ob die richtigen Daten zurückgeliefert werden.</p>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">NUnit.Framework</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">StartingPoint</span>
+<span class="p">{</span>
+        <span class="c1">/// &lt;summary&gt;</span>
+        <span class="c1">/// Unit tests for StartingPoint project.</span>
+        <span class="c1">/// &lt;/summary&gt;</span>
+<span class="na">        [TestFixture]</span>
+        <span class="k">public</span> <span class="k">class</span> <span class="nc">UnitTests</span>
+        <span class="p">{</span>
+                <span class="cm">/* Fields */</span>
+
+                <span class="c1">// Movies</span>
+                <span class="n">Movie</span> <span class="n">m_Cinderella</span><span class="p">;</span>
+                <span class="n">Movie</span> <span class="n">m_StarWars</span><span class="p">;</span>
+                <span class="n">Movie</span> <span class="n">m_Gladiator</span><span class="p">;</span>
+
+                <span class="c1">// Rentals</span>
+                <span class="n">Rental</span> <span class="n">m_Rental1</span><span class="p">;</span>
+                <span class="n">Rental</span> <span class="n">m_Rental2</span><span class="p">;</span>
+                <span class="n">Rental</span> <span class="n">m_Rental3</span><span class="p">;</span>
+
+                <span class="c1">// Customers</span>
+                <span class="n">Customer</span> <span class="n">m_MickeyMouse</span><span class="p">;</span>
+                <span class="n">Customer</span> <span class="n">m_DonaldDuck</span><span class="p">;</span>
+                <span class="n">Customer</span> <span class="n">m_MinnieMouse</span><span class="p">;</span>
+
+                <span class="cm">/* Methods */</span>
+
+<span class="na">                [SetUp]</span>
+                <span class="k">public</span> <span class="k">void</span> <span class="nf">Init</span><span class="p">()</span>
+                <span class="p">{</span>
+                        <span class="c1">// Create movies</span>
+                        <span class="n">m_Cinderella</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Cinderella&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">);</span>
+                        <span class="n">m_StarWars</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Star Wars&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">);</span>
+                        <span class="n">m_Gladiator</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Movie</span><span class="p">(</span><span class="s">&quot;Gladiator&quot;</span><span class="p">,</span> <span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">);</span>
+
+                        <span class="c1">// Create rentals</span>
+                        <span class="n">m_Rental1</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="n">m_Cinderella</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+                        <span class="n">m_Rental2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="n">m_StarWars</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+                        <span class="n">m_Rental3</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Rental</span><span class="p">(</span><span class="n">m_Gladiator</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+
+                        <span class="c1">// Create customers</span>
+                        <span class="n">m_MickeyMouse</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Mickey Mouse&quot;</span><span class="p">);</span>
+                        <span class="n">m_DonaldDuck</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Donald Duck&quot;</span><span class="p">);</span>
+                        <span class="n">m_MinnieMouse</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="p">(</span><span class="s">&quot;Minnie Mouse&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+
+<span class="na">                [Test]</span>
+                <span class="k">public</span> <span class="k">void</span> <span class="nf">TestMovie</span><span class="p">()</span>
+                <span class="p">{</span>
+                        <span class="c1">// Test title property</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Cinderella&quot;</span><span class="p">,</span> <span class="n">m_Cinderella</span><span class="p">.</span><span class="n">Title</span><span class="p">);</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Star Wars&quot;</span><span class="p">,</span> <span class="n">m_StarWars</span><span class="p">.</span><span class="n">Title</span><span class="p">);</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Gladiator&quot;</span><span class="p">,</span> <span class="n">m_Gladiator</span><span class="p">.</span><span class="n">Title</span><span class="p">);</span>
+
+                        <span class="c1">// Test price code</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="n">PriceCodes</span><span class="p">.</span><span class="n">Childrens</span><span class="p">,</span> <span class="n">m_Cinderella</span><span class="p">.</span><span class="n">PriceCode</span><span class="p">);</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="n">PriceCodes</span><span class="p">.</span><span class="n">Regular</span><span class="p">,</span> <span class="n">m_StarWars</span><span class="p">.</span><span class="n">PriceCode</span><span class="p">);</span>
+                        <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="n">PriceCodes</span><span class="p">.</span><span class="n">NewRelease</span><span class="p">,</span> <span class="n">m_Gladiator</span><span class="p">.</span><span class="n">PriceCode</span><span class="p">);</span>
+                <span class="p">}</span>
+</pre></div>
+</div>
+<p>Der entscheidende Test wird aber das Überprüfen der Statement()-Methode sein.</p>
+<div class="admonition note">
+<p class="first admonition-title">Bemerkung</p>
+<p>Aufgabe</p>
+<p class="last">Überlegen Sie, wie man die Statement-Methode testen könnte.</p>
+</div>
+<div class="highlight-csharp"><div class="highlight"><pre><span></span><span class="na">[Test]</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">TestCustomer</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Test Name property</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Mickey Mouse&quot;</span><span class="p">,</span> <span class="n">m_MickeyMouse</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Donald Duck&quot;</span><span class="p">,</span> <span class="n">m_DonaldDuck</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Minnie Mouse&quot;</span><span class="p">,</span> <span class="n">m_MinnieMouse</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span>
+
+    <span class="c1">// Test AddRental() method - set up for test</span>
+    <span class="n">m_MickeyMouse</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="n">m_Rental1</span><span class="p">);</span>
+    <span class="n">m_MickeyMouse</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="n">m_Rental2</span><span class="p">);</span>
+    <span class="n">m_MickeyMouse</span><span class="p">.</span><span class="n">AddRental</span><span class="p">(</span><span class="n">m_Rental3</span><span class="p">);</span>
+
+    <span class="cm">/* At this point, the structure of the program begins getting in the</span>
+<span class="cm">    * way of testing. Rentals are imbedded in the Customer object, but</span>
+<span class="cm">    * there is no property to access them. They can only be accessed</span>
+<span class="cm">    * internally, by the Statement() method, which imbeds them in the</span>
+<span class="cm">    * text string passed as it&#39;s return value. So, to get these amounts,</span>
+<span class="cm">    * we will have to parse that value. */</span>
+
+    <span class="c1">// Test the Statement() method</span>
+    <span class="kt">string</span> <span class="n">theResult</span> <span class="p">=</span> <span class="n">m_MickeyMouse</span><span class="p">.</span><span class="n">Statement</span><span class="p">();</span>
+
+    <span class="c1">// Parse the result</span>
+    <span class="kt">char</span><span class="p">[]</span> <span class="n">delimiters</span> <span class="p">=</span> <span class="s">&quot;\n\t&quot;</span><span class="p">.</span><span class="n">ToCharArray</span><span class="p">();</span>
+    <span class="kt">string</span><span class="p">[]</span> <span class="n">results</span> <span class="p">=</span> <span class="n">theResult</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="n">delimiters</span><span class="p">);</span>
+
+    <span class="cm">/* The results[] array will have the following elements:</span>
+<span class="cm">    *           [0] = junk</span>
+<span class="cm">    *           [1] = junk</span>
+<span class="cm">    *           [2] = title #1</span>
+<span class="cm">    *           [3] = price #1</span>
+<span class="cm">    *           [4] = junk</span>
+<span class="cm">    *           [5] = title #2</span>
+<span class="cm">    *           [6] = price #2</span>
+<span class="cm">    *           [7] = junk</span>
+<span class="cm">    *           [8] = title #3</span>
+<span class="cm">    *           [9] = price #3</span>
+<span class="cm">    *           [10] = &quot;Amount owed is x&quot;</span>
+<span class="cm">    *           [11] = &quot;You earned x frequent renter points.&quot;</span>
+<span class="cm">    * We will test the title and price elements, and the total</span>
+<span class="cm">    * and frequent renter points items. If these tests pass, then</span>
+<span class="cm">    * we know that AddRentals() is adding rentals to a Customer</span>
+<span class="cm">    * object properly, and that the Statement() method is</span>
+<span class="cm">    * generating a statement in the expected format. */</span>
+
+    <span class="c1">// Test the title and price items</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Cinderella&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="m">2</span><span class="p">]);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="m">3</span><span class="p">]));</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Star Wars&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="m">5</span><span class="p">]);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">6.5</span><span class="p">,</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="m">6</span><span class="p">]));</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="s">&quot;Gladiator&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="m">8</span><span class="p">]);</span>
+    <span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">15</span><span class="p">,</span> <span class="n">Convert</span><span class="p">.</span><span class="n">ToDouble</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="m">9</span><span class="p">]));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ausfuhren-der-tests">
+<h2>Ausführen der Tests<a class="headerlink" href="#ausfuhren-der-tests" title="Link zu dieser Überschrift">¶</a></h2>
+<p>In unserem Beispiel wurden die Tests innerhalb des Projektes definiert. In größeren Projekten würde ein eigenes Testprojekt definiert werden, welches das zu testende Projekt referenziert.
+Mit der Installation des NUnit-Frameworks wird ein Testprogramm mitgeliefert; es befindet sich im bin-Verzeichnis. Nach dem erfolgreichen Compilieren des Quellcodes und dem Aufruf von nunit erscheint folgende grafische Oberfläche.</p>
+<img alt="../_images/NUnit_StartingPoint1.jpg" src="../_images/NUnit_StartingPoint1.jpg" />
+<p>Bei erfolgreichen Tests färbt sich der Balken grün.</p>
+<img alt="../_images/NUnit_StartingPoint_11.jpg" src="../_images/NUnit_StartingPoint_11.jpg" />
+</div>
+<div class="section" id="commit-der-anderungen">
+<h2>Commit der Änderungen<a class="headerlink" href="#commit-der-anderungen" title="Link zu dieser Überschrift">¶</a></h2>
+<p>Fügen Sie die Änderungen des Quellcodes auch in das zentrale Repository hinzu, indem sie im Projektexplorer von VStudio CommitChanges anklicken.</p>
+<img alt="../_images/NUnit_StartingPoint_21.jpg" src="../_images/NUnit_StartingPoint_21.jpg" />
+<p>Der SVN-Client analysiert die Änderungen und trägt sie im zentralen Repository ein.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Runde 1</a><ul>
+<li><a class="reference internal" href="#infrastruktur">Infrastruktur</a></li>
+<li><a class="reference internal" href="#das-programm">Das Programm</a></li>
+<li><a class="reference internal" href="#entwickeln-unter-einer-versionsverwaltung">Entwickeln unter einer Versionsverwaltung</a></li>
+<li><a class="reference internal" href="#erstellen-von-unit-tests">Erstellen von Unit-Tests</a></li>
+<li><a class="reference internal" href="#ausfuhren-der-tests">Ausführen der Tests</a></li>
+<li><a class="reference internal" href="#commit-der-anderungen">Commit der Änderungen</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/hudson/tag1.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Stichwortverzeichnis"
+             >Index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SWE</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, STE.
+      Zuletzt aktualisiert am 19. Sep. 2017.
+      Mit <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3 erstellt.
+    </div>
+  </body>
+</html>
