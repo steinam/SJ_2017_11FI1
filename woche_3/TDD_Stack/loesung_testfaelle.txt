@@ -1,0 +1,19 @@
+Lösung zu Testfaelle
+
+Create a Stack and verify that IsEmpty is true.
+
+Push a single object on the Stack and verify that IsEmpty is false.
+
+Push a single object, Pop the object, and verify that IsEmpty is true.
+
+Push a single object, remembering what it is; Pop the object, and verify that the two objects are equal.
+
+Push three objects, remembering what they are; Pop each one, and verify that they are removed in the correct order.
+
+Pop a Stack that has no elements.
+
+Push a single object and then call Top. Verify that IsEmpty is false.
+
+Push a single object, remembering what it is; and then call Top. Verify that the object that is returned is the same as the one that was pushed.
+
+Call Top on a Stack with no elements.

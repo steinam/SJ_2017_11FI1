@@ -1,0 +1,8 @@
+C:\temp\Stacker_R1\Stacker\bin\Debug\Stacker.dll
+C:\temp\Stacker_R1\Stacker\bin\Debug\Stacker.pdb
+C:\temp\Stacker_R1\Stacker\obj\Debug\Stacker.dll
+C:\temp\Stacker_R1\Stacker\obj\Debug\Stacker.pdb
+C:\TDD_Stack\stacker_R2\Stacker\obj\Debug\Stacker.dll
+C:\TDD_Stack\stacker_R2\Stacker\bin\Debug\Stacker.dll
+C:\TDD_Stack\stacker_R2\Stacker\bin\Debug\Stacker.pdb
+C:\TDD_Stack\stacker_R2\Stacker\obj\Debug\Stacker.pdb

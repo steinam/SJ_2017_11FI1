@@ -1,0 +1,10 @@
+T:\11_Klasse\AWP_STE\TDD_Stack\Stacker_R1\Stacker\bin\Debug\Stacker.dll
+T:\11_Klasse\AWP_STE\TDD_Stack\Stacker_R1\Stacker\bin\Debug\Stacker.pdb
+T:\11_Klasse\AWP_STE\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.csprojResolveAssemblyReference.cache
+T:\11_Klasse\AWP_STE\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.dll
+T:\11_Klasse\AWP_STE\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.pdb
+C:\TDD_Stack\Stacker_R1\Stacker\bin\Debug\Stacker.dll
+C:\TDD_Stack\Stacker_R1\Stacker\bin\Debug\Stacker.pdb
+C:\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.csprojResolveAssemblyReference.cache
+C:\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.dll
+C:\TDD_Stack\Stacker_R1\Stacker\obj\Debug\Stacker.pdb
