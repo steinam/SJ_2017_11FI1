@@ -1,0 +1,8 @@
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\bin\Debug\UNitTest_for_CalendarRoutines.dll
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\bin\Debug\UNitTest_for_CalendarRoutines.pdb
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\bin\Debug\KalendarRoutines.dll
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\bin\Debug\nunit.framework.dll
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\bin\Debug\nunit.framework.xml
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\obj\Debug\UNitTest_for_CalendarRoutines.csprojResolveAssemblyReference.cache
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\obj\Debug\UNitTest_for_CalendarRoutines.dll
+C:\schule\docbook\sj_2017\S1_2017_11FI1\woche_2\TestCalendar\UNitTest_for_CalendarRoutines\UNitTest_for_CalendarRoutines\obj\Debug\UNitTest_for_CalendarRoutines.pdb
